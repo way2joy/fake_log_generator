@@ -48,17 +48,6 @@ rr_logs <-
 
 # Fit logistic regression
 fit <- glm(churn ~ risk_ratio, data = rr_logs, family = binomial())
-summary(fit)
-# confint(fit)
-# exp(coef(fit)) # exponentiated coefficients
-# exp(confint(fit)) # 95% CI for exponentiated coefficients
-# predict(fit, type="response") # predicted values
-# residuals(fit, type="deviance") # residuals
-# plot(rr_logs$risk_ratio, predict(fit, type="response"))
-
-table(rr_logs$churn, predict(fit, type='response') >= .5)
-
-
 
 # Draws curve
 df_curve = data.frame(risk_ratio = rr_logs$risk_ratio, 
@@ -71,7 +60,7 @@ ggplot(df_curve, aes(risk_ratio, p_churn)) +
   ylab('Probability of Churn') +
   xlim(0, 5) +
   ylim(0, 1) +
-  annotate("text", x = 4, y = 0.1, label = "Prop.Churn==over(1, 1 + exp(-9.3552 + 4.6795 %*% RR))", parse = TRUE, size = 5) +
+  annotate("text", x = 4, y = 0.1, label = "Prop.Churn==over(1, 1 + exp(9.3552 - 4.6795 %*% RR))", parse = TRUE, size = 5) +
   theme_bw(base_size = 12, base_family = "")
 
 ggsave(file='single_churn_curve.png')
